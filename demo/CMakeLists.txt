@@ -1,0 +1,5 @@
+include_directories("${PROJECT_SOURCE_DIR}/src")
+link_directories (${PROJECT_BINARY_DIR}) 
+find_package(tomlplusplus)
+add_executable(barycentric_ocl_demo main.cpp)
+target_link_libraries(barycentric_ocl_demo PRIVATE ${PROJECT_NAME})
