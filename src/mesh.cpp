@@ -71,6 +71,8 @@ Mesh::Mesh(string inputFile, string inputType, const Vector4i &paramCorners, dou
     this->scale = scale;
     prevTriF = 0;
     prevTriR = 0;
+    triRows = 20;
+    triCols = 20;
     resetPrevTri = true;
 }
 
@@ -514,29 +516,28 @@ Vector3d Mesh::barycentricLooping(const Vector3d &point, Vector3d &normal, bool 
 
 // TODO: rows and cols need to be part of the config files
 void Mesh::preprocessBezier() {
-    int bezRayRows = rtsettings->x, bezRayCols = rtsettings->y;
     MatrixXd controlPoints = MatrixXd::Zero(0, 3),
-             points(bezRayRows*bezRayCols, 3),
-             normals(bezRayRows*bezRayCols, 3);
+             points(triRows*triCols, 3),
+             normals(triRows*triCols, 3);
     vector<Vector3i> faces;
-    initialize(&controlPoints, modelFile);
-    const double vStep = 1.0 / (bezRayRows - 1);
-    const double uStep = 1.0 / (bezRayCols - 1);
+    initialize(&controlPoints, inputFile);
+    const double vStep = 1.0 / (triRows - 1);
+    const double uStep = 1.0 / (triCols - 1);
     num u, v;
-    for (int i = 0; i < bezRayCols; i++) {
-        for (int j = 0; j < bezRayRows; j++) {
+    for (int i = 0; i < triCols; i++) {
+        for (int j = 0; j < triRows; j++) {
             u = uStep * i;
             v = vStep * j;
-            points.row(i*bezRayRows+j) = p(&controlPoints, u, v);
-            normals.row(i*bezRayRows+j) = normal(&controlPoints, u, v);
-            if (i < bezRayCols - 1 && j < bezRayRows - 1) {
-                Vector3i f = {i * bezRayRows + j,
-                              (i + 1) * bezRayRows + j,
-                              i * bezRayRows + j + 1};
+            points.row(i*triRows+j) = p(&controlPoints, u, v);
+            normals.row(i*triRows+j) = normal(&controlPoints, u, v);
+            if (i < triCols - 1 && j < triRows - 1) {
+                Vector3i f = {i * triRows + j,
+                              (i + 1) * triRows + j,
+                              i * triRows + j + 1};
                 faces.push_back(f);
-                Vector3i f2 = {i * bezRayRows + j + 1,
-                              (i + 1) * bezRayRows + j,
-                              (i + 1) * bezRayRows + j + 1};
+                Vector3i f2 = {i * triRows + j + 1,
+                              (i + 1) * triRows + j,
+                              (i + 1) * triRows + j + 1};
                 faces.push_back(f2);
             }
         }
@@ -549,13 +550,14 @@ void Mesh::preprocessBezier() {
     for (auto r : faces)
         out << fmt::format("f {}//{} {}//{} {}//{}\n", r(0)+1, r(0)+1, r(1)+1, r(1)+1, r(2)+1, r(2)+1);
     out.close();
-    paramCorners << 0, bezRayRows-1, bezRayCols*(bezRayRows-1), bezRayCols*bezRayRows-1;
+    paramCorners << 0, triRows-1, triCols*(triRows-1), triCols*triRows-1;
 }
 
 // TODO: rows and cols need to be part of the config files
 void Mesh::preprocessRayTrace() {
-    int bezRayRows = rtsettings->x, bezRayCols = rtsettings->y;
-    MatrixXd points, normals(bezRayRows*bezRayCols, 3);
+    rtsettings->x = triRows;
+    rtsettings->y = triCols;
+    MatrixXd points, normals(triRows*triCols, 3);
     vector<Vector3i> faces;
     vector<Vector3d> triNorms;
     MatrixXi facesDummy;
@@ -566,21 +568,21 @@ void Mesh::preprocessRayTrace() {
 
     double rayBox[4] = {uStart, vStart, uLength, vLength};*/
     // Get ray tracing data with default u x v sizing for analysis
-    //modelFile, points, facesDummy, rayBox, bezRayRows, bezRayCols
+    //modelFile, points, facesDummy, rayBox, triRows, triCols
     rtsettings->updateRayBox(rayBox);
     auto rayTraceResults = rayTrace(rtsettings.get());
     points = std::get<2>(rayTraceResults);
-    for (int i = 0; i < bezRayCols; i++) {
-        for (int j = 0; j < bezRayRows; j++) {
-            //normals.row(i*bezRayRows+j) = normal(&controlPoints, u, v);
-            if (i < bezRayCols - 1 && j < bezRayRows - 1) {
-                Vector3i f = {i * bezRayRows + j,
-                              (i + 1) * bezRayRows + j,
-                              i * bezRayRows + j + 1};
+    for (int i = 0; i < triCols; i++) {
+        for (int j = 0; j < triRows; j++) {
+            //normals.row(i*triRows+j) = normal(&controlPoints, u, v);
+            if (i < triCols - 1 && j < triRows - 1) {
+                Vector3i f = {i * triRows + j,
+                              (i + 1) * triRows + j,
+                              i * triRows + j + 1};
                 faces.push_back(f);
-                Vector3i f2 = {i * bezRayRows + j + 1,
-                              (i + 1) * bezRayRows + j,
-                              (i + 1) * bezRayRows + j + 1};
+                Vector3i f2 = {i * triRows + j + 1,
+                              (i + 1) * triRows + j,
+                              (i + 1) * triRows + j + 1};
                 faces.push_back(f2);
             }
         }
@@ -605,5 +607,5 @@ void Mesh::preprocessRayTrace() {
         out << fmt::format("vn {} {} {}\n", row(0), row(1), row(2));
     }
     out.close();
-    paramCorners << 0, bezRayRows-1, bezRayCols*(bezRayRows-1), bezRayCols*bezRayRows-1;
+    paramCorners << 0, triRows-1, triCols*(triRows-1), triCols*triRows-1;
 }

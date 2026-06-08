@@ -27,26 +27,29 @@ int main(int argc, char *argv[]) {
     Mesh mesh = Mesh(modelFile, inputType);
     mesh.scale = setts["model"]["scale"].value_or(1.0);
 
-    if (!inputType.compare("obj")) {
+    if (!inputType.compare("raytrace") || !inputType.compare("bezier")) {
+        mesh.triRows = setts["triangulation"]["x"].value_or(20);
+        mesh.triCols = setts["triangulation"]["y"].value_or(20);
+        if (!inputType.compare("raytrace")) {
+            auto rb1 = setts["ray_trace"]["ray_start"];
+            auto rb2 = setts["ray_trace"]["ray_box_size"];
+            mesh.rayBox << rb1[0].value_or(0.0), rb1[1].value_or(0.0), rb2[0].value_or(10.0), rb2[1].value_or(10.0);
+            mesh.rtsettings->scale = setts["ray_trace"]["scale"].value_or(1.0);
+            auto rot = setts["ray_trace"]["rotate"];
+            mesh.rtsettings->rotate << rot[0].value_or(0), rot[1].value_or(0), rot[2].value_or(0);
+            auto Zv = setts["ray_trace"]["Zv"];
+            mesh.rtsettings->Zv << Zv[0].value_or(1), Zv[1].value_or(0), Zv[2].value_or(0);
+            auto Vup = setts["ray_trace"]["Vup"];
+            mesh.rtsettings->Vup << Vup[0].value_or(0), Vup[1].value_or(1), Vup[2].value_or(0);
+        }
+    } else {
         auto pc = setts["model"]["param_corners"];
         mesh.paramCorners << pc[0].value_or(0), pc[1].value_or(0),
                      pc[2].value_or(0), pc[3].value_or(0);
-    } else if (!inputType.compare("raytrace")) {
-        auto rb1 = setts["ray_trace"]["ray_start"];
-        auto rb2 = setts["ray_trace"]["ray_box_size"];
-        mesh.rayBox << rb1[0].value_or(0.0), rb1[1].value_or(0.0), rb2[0].value_or(10.0), rb2[1].value_or(10.0);
-        mesh.rtsettings->scale = setts["ray_trace"]["scale"].value_or(1.0);
-        auto rot = setts["ray_trace"]["rotate"];
-        mesh.rtsettings->rotate << rot[0].value_or(0), rot[1].value_or(0), rot[2].value_or(0);
-        mesh.rtsettings->x = setts["ray_trace"]["x"].value_or(20);
-        mesh.rtsettings->y = setts["ray_trace"]["y"].value_or(20);
-        auto Zv = setts["ray_trace"]["Zv"];
-        mesh.rtsettings->Zv << Zv[0].value_or(1), Zv[1].value_or(0), Zv[2].value_or(0);
-        auto Vup = setts["ray_trace"]["Vup"];
-        mesh.rtsettings->Vup << Vup[0].value_or(0), Vup[1].value_or(1), Vup[2].value_or(0);
     }
 
     mesh.initializeMesh();
+    cout << mesh.barycentricLoopingR(Vector3d{0.0, 0.0, 0.0}) << endl;
     cout << mesh.barycentricLoopingF(Vector2d{0.5, 0.5}) << endl;
     
     return 0;
