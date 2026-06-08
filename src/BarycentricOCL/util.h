@@ -38,8 +38,10 @@ num bound(num x);
 num bound(num x, num minVal, num maxVal);
 num pow2(num x);
 num scaleneArea(Vector3d p1, Vector3d p2, Vector3d p3);
-num distance(Vector3d one, Vector3d two);
-num distance(MatrixXd one, MatrixXd two);
+template <typename DerivedA, typename DerivedB>
+num distance(const Eigen::MatrixBase<DerivedA>& one, const Eigen::MatrixBase<DerivedB>& two) {
+    return (one - two).norm(); 
+}
 num tetrahedronVolume(Vector3d, Vector3d, Vector3d, Vector3d);
 Vector3d triangleNormal(MatrixXd &points, Vector3i &face);
 bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d, bool, num);

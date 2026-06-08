@@ -52,7 +52,7 @@ class Mesh {
         MatrixXd realPoints;
         int prevTriF, prevTriR, triRows, triCols;
         double scale;
-        bool resetPrevTri;
+        bool resetPrevTri, flipPrimary;
         Vector4i paramCorners;
         Vector4d rayBox;
         MatrixXd pointMap;

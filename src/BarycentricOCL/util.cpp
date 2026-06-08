@@ -15,17 +15,6 @@ num pow2(num x) {
     return x * x;
 }
 
-num distance(Vector3d one, Vector3d two) {
-    MatrixXd oneMat = one;
-    MatrixXd twoMat = two;
-    return distance(oneMat, twoMat);
-}
-
-num distance(MatrixXd one, MatrixXd two) {
-    return sqrt(pow2(two(0) - one(0)) + pow2(two(1) - one(1)) +
-            pow2(two(2) - one(2)));
-}
-
 num scaleneArea(Vector3d p1, Vector3d p2, Vector3d p3) {
     num e1 = distance(p1, p2);
     num e2 = distance(p1, p3);

@@ -183,6 +183,25 @@ void Mesh::initializeMesh() {
         }
         count++;
     }
+
+    if (flipPrimary) {
+        Vector2d c;
+        c << 0.5, 0.5;
+        Eigen::Rotation2D<num> rot(H_PI);
+        Translation2d transF(c);
+        Translation2d transR(-c);
+        for (int i=0; i<paramPoints.rows(); i++) {
+            Vector2d p = paramPoints.row(i).leftCols(2);
+            p = transF * rot * transR * p.transpose();
+            paramPoints.row(i).leftCols(2) << bound(p(0), 0, 1), bound(p(1), 0, 1);
+        }
+        for (int i=0; i<pointMap.rows(); i++) {
+            Vector2d p = pointMap.row(i).leftCols(2);
+            p = transF * rot * transR * p.transpose();
+            pointMap.row(i).leftCols(2) << bound(p(0), 0, 1), bound(p(1), 0, 1);
+        }
+    }
+
     realPoints = MatrixXd::Zero(vertCount, 3);
     for (int s=0; s<paramPoints.rows(); s++) {
         auto row = paramPoints.row(s);
@@ -194,13 +213,6 @@ void Mesh::initializeMesh() {
         }
     }
     buildFaceMap();
-    /*surfaceArea = 0.0;
-    for (auto f : faces) {
-        Vector3d p1 = realPoints.row(f->vertices(0));
-        Vector3d p2 = realPoints.row(f->vertices(1));
-        Vector3d p3 = realPoints.row(f->vertices(2));
-        surfaceArea += scaleneArea(p1, p2, p3);
-    }*/
 }
 
 Vector3d Mesh::barycentricLoopingF(const Vector2d &point) {
