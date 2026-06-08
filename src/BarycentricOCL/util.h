@@ -44,7 +44,8 @@ num distance(const Eigen::MatrixBase<DerivedA>& one, const Eigen::MatrixBase<Der
 }
 num tetrahedronVolume(Vector3d, Vector3d, Vector3d, Vector3d);
 Vector3d triangleNormal(MatrixXd &points, Vector3i &face);
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d, bool, num);
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d, bool);
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d, num);
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w);
+using Vector3dIn = const Eigen::Ref<const Eigen::Vector3d>&;
+bool barycentric(Vector3dIn p, Vector3dIn a, Vector3dIn b, Vector3dIn c, num &u, num &v, num &w, num &d, bool, num);
+bool barycentric(Vector3dIn p, Vector3dIn a, Vector3dIn b, Vector3dIn c, num &u, num &v, num &w, num &d, bool);
+bool barycentric(Vector3dIn p, Vector3dIn a, Vector3dIn b, Vector3dIn c, num &u, num &v, num &w, num &d, num);
+bool barycentric(Vector3dIn p, Vector3dIn a, Vector3dIn b, Vector3dIn c, num &u, num &v, num &w);

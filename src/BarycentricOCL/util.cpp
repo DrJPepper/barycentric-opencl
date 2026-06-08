@@ -51,20 +51,20 @@ num tetrahedronVolume(Vector3d p1, Vector3d p2, Vector3d p3, Vector3d p4) {
     return result;
 }
 
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d, num tol) {
+bool barycentric(const Vector3dIn &p, Vector3dIn &a, Vector3dIn &b, Vector3dIn &c, num &u, num &v, num &w, num &d, num tol) {
     return barycentric(p, a, b, c, u, v, w, d, true, tol);
 }
 
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d) {
+bool barycentric(const Vector3dIn &p, Vector3dIn &a, Vector3dIn &b, Vector3dIn &c, num &u, num &v, num &w, num &d) {
     return barycentric(p, a, b, c, u, v, w, d, true, BARY_TOL);
 }
 
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w) {
+bool barycentric(const Vector3dIn &p, Vector3dIn &a, Vector3dIn &b, Vector3dIn &c, num &u, num &v, num &w) {
     num d;
     return barycentric(p, a, b, c, u, v, w, d, false, BARY_TOL);
 }
 
-bool barycentric(const Vector3d &p, Vector3d &a, Vector3d &b, Vector3d &c, num &u, num &v, num &w, num &d, bool doTetrahedron, num tol) {
+bool barycentric(const Vector3dIn &p, Vector3dIn &a, Vector3dIn &b, Vector3dIn &c, num &u, num &v, num &w, num &d, bool doTetrahedron, num tol) {
     Vector3d v0 = b - a, v1 = c - a, v2 = p - a;
     num d00 = v0.dot(v0);
     num d01 = v0.dot(v1);
