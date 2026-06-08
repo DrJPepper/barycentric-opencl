@@ -1,4 +1,4 @@
-#include "mesh.h"
+#include "BarycentricOCL/mesh.h"
 #include <toml++/toml.hpp>
 
 int main(int argc, char *argv[]) {

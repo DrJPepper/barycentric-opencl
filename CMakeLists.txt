@@ -41,7 +41,7 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(Boost 1.45.0 CONFIG COMPONENTS graph) #graph filesystem iostreams program_options REQUIRED)
+find_package(Boost 1.45.0 CONFIG COMPONENTS graph)
 find_package(Eigen3 REQUIRED NO_MODULE)
 find_package(fmt)
 find_package(OpenCL REQUIRED)
@@ -49,8 +49,8 @@ find_package(OpenCL REQUIRED)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} "${PROJECT_SOURCE_DIR}/src"
     ${Boost_INCLUDE_DIRS})
 
-file(GLOB HEADER_FILES src/*.h)
-file(GLOB CXX_FILES src/*.cpp)
+file(GLOB HEADER_FILES src/BarycentricOCL/*.h)
+file(GLOB CXX_FILES src/BarycentricOCL/*.cpp)
 
 add_library(${PROJECT_NAME} ${OS_BUNDLE} ${HEADER_FILES} ${CXX_FILES})
 target_link_libraries(${PROJECT_NAME} PUBLIC OpenCL_Wrapper Eigen3::Eigen OpenCL::OpenCL ${Boost_LIBRARIES} fmt::fmt)

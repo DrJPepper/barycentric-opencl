@@ -104,3 +104,12 @@ num bound(num x, num minVal, num maxVal) {
 num bound(num x) {
     return bound(x, 0.00001, 0.99999);
 }
+
+int kChoosei(int k, int i) {
+    return factorial(k) / (factorial(i) * factorial(k - i));
+}
+
+int factorial(int x) {
+    if (x == 0) return 1;
+    return x * factorial(x - 1);
+}

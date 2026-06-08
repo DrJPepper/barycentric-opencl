@@ -32,6 +32,8 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
+int factorial(int);
+int kChoosei(int n, int k);
 num bound(num x);
 num bound(num x, num minVal, num maxVal);
 num pow2(num x);

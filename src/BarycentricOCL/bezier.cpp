@@ -80,12 +80,3 @@ MatrixXd normal(MatrixXd *points, float u, float v) {
     Vector3d tanV = dQdv(points, u, v);
     return tanV.cross(tanU).normalized();
 }
-
-int kChoosei(int k, int i) {
-    return factorial(k) / (factorial(i) * factorial(k - i));
-}
-
-int factorial(int x) {
-    if (x == 0) return 1;
-    return x * factorial(x - 1);
-}
