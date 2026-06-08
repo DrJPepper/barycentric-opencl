@@ -50,7 +50,7 @@ class Mesh {
         vector<Face*> faces;
         MatrixXd paramPoints;
         MatrixXd realPoints;
-        int prevTriF, prevTriR, bezRayRows, bezRayCols;
+        int prevTriF, prevTriR;
         double scale;
         bool resetPrevTri;
         Vector4i paramCorners;

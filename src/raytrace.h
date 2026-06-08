@@ -15,7 +15,7 @@ class RTSettings {
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         RTSettings(Vector4d &rayBox);
         void updateRayBox(Vector4d &rayBox);
-        int x, y;
+        int x, y, maxObjCount;
         double theta, d, h, Sj, Sk, uStart, vStart, uLength, vLength, scale;
         Vector3d cameraLoc, Zv, Vup, Xv, Yv, P00, rotate;
         MatrixXd vertices;

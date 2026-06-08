@@ -17,7 +17,7 @@ std::tuple<int, int, MatrixXd&> rayTrace(RTSettings *settings) {
         exit(1);
     }
     Intersectable *temp = new SMFModel(settings, &currMesh);
-    ACGBVH *newObj = new ACGBVH(temp, 1);
+    ACGBVH *newObj = new ACGBVH(temp, settings->maxObjCount);
     objects.push_back(newObj);
     intersectForAllPixels(objects, settings, &pixelMap);
     settings->vertices = reinterpret_cast<SMFModel*>(objects[0]->obj)->vertices;
@@ -52,7 +52,7 @@ void intersectForAllPixels(vector<ACGBVH *> objects, RTSettings *settings,
         for (j = 0; j < settings->x; j++) {
             for (k = 0; k < settings->y; k++) {
                 index = k * settings->x + j;
-                settings->cameraLoc << DBL_MIN, settings->uStart + uStep * j, settings->vStart + vStep * k;
+                settings->cameraLoc << -DBL_MAX / 50.0, settings->uStart + uStep * j, settings->vStart + vStep * k;
                 objects[i]->intersectPixel(djk.normalized(), settings, index, i);
             }
         }
@@ -62,6 +62,7 @@ void intersectForAllPixels(vector<ACGBVH *> objects, RTSettings *settings,
 // Parse the input file and generate resulting settings and objects
 RTSettings::RTSettings(Vector4d &rayBox) {
     // Default values
+    maxObjCount = 200;
     d = 3.0;
     x = 20;
     y = 20;
@@ -105,6 +106,8 @@ SMFModel::SMFModel(RTSettings *settings, std::ifstream *inSMF) {
 
     type = SMF;
 
+    scale = settings->scale;
+    rotate = settings->rotate * PI / 180.0;
     vertices = MatrixXd::Zero(0, 3);
     facesStored = MatrixXi::Zero(0, 3);
 

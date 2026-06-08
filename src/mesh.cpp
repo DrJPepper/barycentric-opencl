@@ -514,7 +514,7 @@ Vector3d Mesh::barycentricLooping(const Vector3d &point, Vector3d &normal, bool 
 
 // TODO: rows and cols need to be part of the config files
 void Mesh::preprocessBezier() {
-    //int bezRayRows = 20, bezRayCols = 20;
+    int bezRayRows = rtsettings->x, bezRayCols = rtsettings->y;
     MatrixXd controlPoints = MatrixXd::Zero(0, 3),
              points(bezRayRows*bezRayCols, 3),
              normals(bezRayRows*bezRayCols, 3);
@@ -554,7 +554,7 @@ void Mesh::preprocessBezier() {
 
 // TODO: rows and cols need to be part of the config files
 void Mesh::preprocessRayTrace() {
-    //int bezRayRows = 20, cols = 20;
+    int bezRayRows = rtsettings->x, bezRayCols = rtsettings->y;
     MatrixXd points, normals(bezRayRows*bezRayCols, 3);
     vector<Vector3i> faces;
     vector<Vector3d> triNorms;
@@ -567,8 +567,7 @@ void Mesh::preprocessRayTrace() {
     double rayBox[4] = {uStart, vStart, uLength, vLength};*/
     // Get ray tracing data with default u x v sizing for analysis
     //modelFile, points, facesDummy, rayBox, bezRayRows, bezRayCols
-    Vector4d rayBox;
-    rayBox << -1, -1, -1, -1;
+    rtsettings->updateRayBox(rayBox);
     auto rayTraceResults = rayTrace(rtsettings.get());
     points = std::get<2>(rayTraceResults);
     for (int i = 0; i < bezRayCols; i++) {
