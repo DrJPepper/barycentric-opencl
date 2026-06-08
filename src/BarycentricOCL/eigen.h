@@ -24,8 +24,8 @@ typedef Eigen::Matrix<num,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> MatrixX
 typedef Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> MatrixXi;
 #if EIGEN_VERSION_AT_LEAST(3, 4, 0)
     constexpr auto all = Eigen::placeholders::all;
-    constexpr auto last = Eigen::placeholders::all;
+    constexpr auto last = Eigen::placeholders::last;
 #else
     constexpr auto all = Eigen::all;
-    constexpr auto last = Eigen::all;
+    constexpr auto last = Eigen::last;
 #endif
