@@ -52,7 +52,7 @@ void intersectForAllPixels(vector<ACGBVH *> objects, RTSettings *settings,
         for (j = 0; j < settings->x; j++) {
             for (k = 0; k < settings->y; k++) {
                 index = k * settings->x + j;
-                settings->cameraLoc << -DBL_MAX / 50.0, settings->uStart + uStep * j, settings->vStart + vStep * k;
+                settings->cameraLoc << -DBL_MAX / 500.0, settings->uStart + uStep * j, settings->vStart + vStep * k;
                 objects[i]->intersectPixel(djk.normalized(), settings, index, i);
             }
         }
