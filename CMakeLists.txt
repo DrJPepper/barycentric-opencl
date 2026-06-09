@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.25)
 project(BarycentricOpenCL)
 
 option(DISABLE_DEMO "Disable the demo program (which depends on tomlplusplus)" OFF)
@@ -29,13 +29,13 @@ IF( EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" )
   )
 ENDIF()
 
-#set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-#set(CMAKE_CXX_FLAGS "-Wall -O2")
-set(CMAKE_CXX_FLAGS "-Wall -O2 -ggdb")
+set(CMAKE_CXX_FLAGS "-Wall -O2")
+set(CMAKE_CXX_FLAGS_DEBUG "-ggdb")
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
