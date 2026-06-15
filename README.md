@@ -1,5 +1,7 @@
 # Barycentric-OpenCL
 
+README forthcoming
+
 # Features
 
 # Installation
@@ -10,6 +12,7 @@
 
 # TODO
 
+* ☐ Improve memory management and resource cleanup
 * ☐ Check available VRAM and determine max settings
 * ☐ Allow user to request either max memory usage or max concurrent points
 * ☐ Run optimization check to see at what point it becomes worth running on OpenCL vs CPU
