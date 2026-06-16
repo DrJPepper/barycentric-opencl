@@ -2,15 +2,15 @@
 
 README forthcoming
 
-# Features
+## Features
 
-# Installation
+## Installation
 
-# Usage
+## Usage
 
 `cmake -DDISABLE_DEMO=ON ..`
 
-# TODO
+## TODO
 
 * ☐ Improve memory management and resource cleanup
 * ☐ Check available VRAM and determine max settings
