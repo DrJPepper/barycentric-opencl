@@ -22,7 +22,7 @@ typedef Eigen::Array<int, 1, 3> Array3i;
 typedef Eigen::Matrix3d Matrix3d;
 typedef Eigen::Matrix<num,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> MatrixXd;
 typedef Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> MatrixXi;
-#if EIGEN_VERSION_AT_LEAST(3, 4, 0)
+#if EIGEN_VERSION_AT_LEAST(5, 0, 0)
     constexpr auto all = Eigen::placeholders::all;
     constexpr auto last = Eigen::placeholders::last;
 #else
