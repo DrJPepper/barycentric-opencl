@@ -19,7 +19,7 @@ parameter space, and `barycentricLoopingF` which does the reverse.
 
 ## Installation
 
-The code is written in C++ and is the project is configured to use Cmake for
+The code is written in C++ and the project is configured to use Cmake for
 compilation.
 
 ### Dependencies
@@ -35,7 +35,7 @@ additional dependency of toml++. To compile this demo standalone, run
 
     mkdir build
     cd build
-    cmake -DDISABLE_DEMO=ON ..
+    cmake ..
 
 The demo expects a TOML config file for a triangle mesh model. Examples of these
 can be found in
@@ -72,7 +72,7 @@ disables compilation of the demo.
 
 As it is currently configured, an input model must be provided to
 the `Mesh` class, which then automatically initializes the requisite
-parameterization.
+parameterization. The `Mesh` constructor takes two arguments, the name of the input model file 
 
 ## TODO
 
