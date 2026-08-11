@@ -72,7 +72,7 @@ disables compilation of the demo.
 
 As it is currently configured, an input model must be provided to
 the `Mesh` class, which then automatically initializes the requisite
-parameterization. The `Mesh` constructor takes two arguments, the name of the input model file 
+parameterization. <!--The `Mesh` constructor takes two arguments, the name of the input model file-->
 
 ## TODO
 
